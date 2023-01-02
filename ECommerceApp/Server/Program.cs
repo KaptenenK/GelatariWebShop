@@ -2,6 +2,7 @@ global using ECommerceApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using ECommerceApp.Server.Data;
 global using ECommerceApp.Server.Services.ProductService;
+using Microsoft.AspNetCore.ResponseCompression;
 
 
 
