@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230102212739_SeedMoreData")]
-    partial class SeedMoreData
+    [Migration("20230108230452_RekomenderadeProdukter")]
+    partial class RekomenderadeProdukter
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,12 +80,12 @@ namespace ECommerceApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Featured")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -103,8 +103,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Gräddig och god saffransglass som också blir lysande gul av saffranet.",
+                            Featured = true,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Price = 85.00m,
                             Title = "SaffransGlass"
                         },
                         new
@@ -112,8 +112,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Description = "Äkta pistageglass är en av mina absoluta favoriter när det kommer till glass. Den här hemmagjorda varianten blev helt perfekt i både smak och konsistens.",
+                            Featured = false,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Price = 60.0m,
                             Title = "PistageGlass"
                         },
                         new
@@ -121,8 +121,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Description = "Glass med äkta vanilj – gör egen vaniljglass med glassmaskin! Grädde, mjölk och äggulor utgör basen till glassen som får smak av socker, vaniljstång och salt.",
+                            Featured = false,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Price = 30.0m,
                             Title = "VaniljGlass"
                         },
                         new
@@ -130,8 +130,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 4,
                             CategoryId = 2,
                             Description = "Crunchy Choklad Cookies!!",
+                            Featured = false,
                             ImageUrl = "https://bakingamoment.com/wp-content/uploads/2016/09/IMG_0316-chocolate-chip-cookies-1-720x720.jpg",
-                            Price = 30.0m,
                             Title = "Choklad Cookie"
                         },
                         new
@@ -139,8 +139,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 5,
                             CategoryId = 2,
                             Description = "Krispiga Kolasnittar!",
+                            Featured = false,
                             ImageUrl = "https://ingmar.app/blog/wp-content/uploads/2015/12/kolasnittar2.jpg",
-                            Price = 30.0m,
                             Title = "Kola Cookies"
                         },
                         new
@@ -148,8 +148,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 6,
                             CategoryId = 2,
                             Description = "Vårt klassiska recept på Vetebullar/Kanelbullar/Vetebröd, samma recept som återfinns på våra vetemjöls-förpackningar!",
+                            Featured = false,
                             ImageUrl = "https://www.kungsornen.se/467791/siteassets/2.-recept/saftigaste-kanelbullarna.jpg?maxwidth=1440",
-                            Price = 30.0m,
                             Title = "Kanelbullar"
                         },
                         new
@@ -157,8 +157,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 7,
                             CategoryId = 2,
                             Description = "GUDOMLIGT GODA SAFFRANSBULLAR Riktigt, riktigt saftiga och goda saffransbullar! Smörkrämsfyllningen gör bullarna extra saftiga & goda!",
+                            Featured = true,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Price = 30.0m,
                             Title = "Saffransbullar"
                         },
                         new
@@ -166,8 +166,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 8,
                             CategoryId = 3,
                             Description = "lkdfkljdsjkfdlkjfdjlsk",
+                            Featured = false,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Price = 30.0m,
                             Title = "SaffransLimpa"
                         },
                         new
@@ -175,8 +175,8 @@ namespace ECommerceApp.Server.Migrations
                             Id = 9,
                             CategoryId = 3,
                             Description = "-",
+                            Featured = false,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Price = 30.0m,
                             Title = "Bananbröd"
                         },
                         new
@@ -184,9 +184,156 @@ namespace ECommerceApp.Server.Migrations
                             Id = 10,
                             CategoryId = 3,
                             Description = "földsölkfdöklfölsdöklsfd",
+                            Featured = true,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Price = 30.0m,
                             Title = "BarbariBröd"
+                        });
+                });
+
+            modelBuilder.Entity("ECommerceApp.Shared.ProductType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Default"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Gräddglass"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Gelato"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Sorbé"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Fikabröd"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Mörka bröd"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Ljusa bröd"
+                        });
+                });
+
+            modelBuilder.Entity("ECommerceApp.Shared.ProductVariant", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("ProductId", "ProductTypeId");
+
+                    b.HasIndex("ProductTypeId");
+
+                    b.ToTable("ProductVariants");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            ProductTypeId = 3,
+                            OriginalPrice = 100.0m,
+                            Price = 80.0m
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            ProductTypeId = 2,
+                            OriginalPrice = 99.0m,
+                            Price = 80.0m
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            ProductTypeId = 4,
+                            OriginalPrice = 99.0m,
+                            Price = 70.0m
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            ProductTypeId = 5,
+                            OriginalPrice = 49.0m,
+                            Price = 30.0m
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            ProductTypeId = 5,
+                            OriginalPrice = 39.0m,
+                            Price = 30.0m
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            ProductTypeId = 5,
+                            OriginalPrice = 99.0m,
+                            Price = 80.0m
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            ProductTypeId = 5,
+                            OriginalPrice = 99.0m,
+                            Price = 70.0m
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            ProductTypeId = 7,
+                            OriginalPrice = 99.0m,
+                            Price = 80.0m
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            ProductTypeId = 7,
+                            OriginalPrice = 99.0m,
+                            Price = 80.0m
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            ProductTypeId = 6,
+                            OriginalPrice = 99.0m,
+                            Price = 80.0m
                         });
                 });
 
@@ -199,6 +346,30 @@ namespace ECommerceApp.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Catergory");
+                });
+
+            modelBuilder.Entity("ECommerceApp.Shared.ProductVariant", b =>
+                {
+                    b.HasOne("ECommerceApp.Shared.Product", "Product")
+                        .WithMany("Variants")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ECommerceApp.Shared.ProductType", "ProductType")
+                        .WithMany()
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("ECommerceApp.Shared.Product", b =>
+                {
+                    b.Navigation("Variants");
                 });
 #pragma warning restore 612, 618
         }

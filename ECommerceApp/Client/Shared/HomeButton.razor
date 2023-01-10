@@ -1,0 +1,20 @@
+﻿@inject NavigationManager NavigationManager
+
+
+
+
+<button @onclick="GoToHome"
+    class="btn btn-outline-primary home-button">
+    Gelato Shoppen
+</button>
+
+
+
+
+@code {
+
+    private void GoToHome()
+    {
+        NavigationManager.NavigateTo("");
+    }
+}

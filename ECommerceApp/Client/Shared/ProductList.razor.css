@@ -1,8 +1,10 @@
 ﻿.media-img {
-    max-height: 200px;
+    max-height: 400px;
     max-width: 200px;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    text-align: center;
     transition: transform 0.2s;
 
 }
@@ -19,7 +21,10 @@
    
 }
 
-
+.page-selection {
+    margin-right: 15px;
+    margin-bottom: 30px;
+}
 
 @media (max-width: 1023.98px) {
     .media {
