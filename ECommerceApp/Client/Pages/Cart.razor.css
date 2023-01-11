@@ -1,0 +1,91 @@
+﻿
+
+
+.container {
+    display: flex;
+    padding: 6px;
+}
+
+.image-wrapper {
+
+    width: 150px;
+    text-align: center;
+}
+.image {
+    max-height: 150px;
+    max-width: 150px;
+    padding: 6px;
+}
+.name {
+    flex-grow: 1;
+    padding: 6px;
+}
+
+.cart-product-price {
+    font-weight: 600;
+    text-align: right;
+}
+
+/*.btn-delete {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+    .btn-delete:hover {
+        opacity: 1;
+    }*/
+
+
+.btn-delete {
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    background-image: linear-gradient(315deg, red 0%, rgb(135, 22, 2) 74%);
+    background-size: 200% 100%;
+    background-position: left;
+    background-repeat: no-repeat;
+    transition: 500ms;
+    margin-top: 10px;
+    border-radius: 10px;
+    
+}
+
+.btn-deleten:before {
+    content: 'Brighten';
+    color: rgb(211, 171, 156);
+    font-size: 16px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 40px;
+    background-color: #ff0000;
+    background-image: linear-gradient(315deg, #d31414 0%, #ff0000 74%);
+    transition: 500ms;
+}
+.btn-delete:hover {
+    background-position: right;
+}
+
+.btn-delete:before {
+    color: #ff0000;
+}
+
+.btn-delete:focus {
+    outline: none;
+}
+
+.input-quantity {
+    width: 70px;
+}

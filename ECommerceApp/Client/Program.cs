@@ -7,7 +7,7 @@ using ECommerceApp.Client;
 
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using ECommerceApp.Client.Services.CategoryService;
+
 using Blazored.LocalStorage;
 using ECommerceApp.Client.Services.CartService;
 

@@ -5,7 +5,7 @@
 
 <a href="cart" class="btn btn-info">
     <i class="oi oi-cart"></i>
-    <span class="badge">@GetCartItemsCount</span>
+    <span class="badge">@GetCartItemsCount()</span>
 </a>
 
 
@@ -16,6 +16,17 @@
     private int GetCartItemsCount()
     {
         var cart = LocalStorage.GetItem<List<CartItem>>("cart");
-        return cart != ? cart.Count : 0;
+        return cart != null ? cart.Count : 0;
+    }
+
+    protected override void OnInitialized()
+    {
+        CartService.OnChange += StateHasChanged;
+
+    }
+
+    public void Dispose()
+    {
+        CartService.OnChange -= StateHasChanged;
     }
 }
