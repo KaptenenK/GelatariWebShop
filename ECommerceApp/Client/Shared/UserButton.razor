@@ -1,0 +1,58 @@
+﻿@inject ILocalStorageService LocalStorage
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<div class="dropdown">
+    <button @onclick="ToggleUserMenu"
+            @onfocusout="HideUserMenu"
+            class="btn btn-secondary dropdown-toggle user-button">
+            <i class="oi oi-person"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right @UserMenuCssClass">
+        @*visar bara till authorized*@
+        <AuthorizeView>
+            <Authorized>
+                <a href="profile" class="dropdown-item">Din Profil</a>
+                <hr />
+                <button class="dropdown-item" @onclick="LogOut">Logga ut</button>
+            </Authorized>
+            @*visar bara unauthorized*@
+            <NotAuthorized>
+
+                @*För att gå tillbaka till samma route/link användaren var innan inlogging/Authorization*@
+                <a href="login?returnUrl=@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)" class="dropdown-item">Logga in</a>
+                <a href="register" class="dropdown-item">Registrera</a>
+            </NotAuthorized>
+        </AuthorizeView>
+        
+
+    </div>
+</div>
+
+@code {
+    private bool ShowUserMenu = false;
+
+    private string UserMenuCssClass => ShowUserMenu ? "show-menu" : null;
+
+    private void ToggleUserMenu()
+    {
+        ShowUserMenu = !ShowUserMenu;
+    }
+
+    private async Task HideUserMenu()
+    {
+        await Task.Delay(200);
+        ShowUserMenu = false;
+    }
+
+    private async Task LogOut()
+    {
+        //vi tar bort authtoken från localstorage
+        await LocalStorage.RemoveItemAsync("authToken");
+
+        //vi kallar getauthenticationstate metoden för att något har ändrats
+        await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        //navigera tillbaka till hem
+        NavigationManager.NavigateTo("");
+    }
+}
