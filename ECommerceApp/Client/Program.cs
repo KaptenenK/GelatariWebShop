@@ -3,13 +3,17 @@ global using System.Net.Http.Json;
 global using Microsoft.AspNetCore.Components;
 global using ECommerceApp.Client.Services.ProductService;
 global using ECommerceApp.Client.Services.CategoryService;
+global using ECommerceApp.Client.Services.CartService;
+global using ECommerceApp.Client.Services.AuthService;
+global using Microsoft.AspNetCore.Components.Authorization;
 using ECommerceApp.Client;
 
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 using Blazored.LocalStorage;
-using ECommerceApp.Client.Services.CartService;
+
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -21,4 +25,10 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
 await builder.Build().RunAsync();
