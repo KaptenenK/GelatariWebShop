@@ -4,6 +4,7 @@
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ICartService CartService
 
 
 
@@ -65,6 +66,13 @@
 
             //Vi kallar på getauthentication att state ändras vid inloggning
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+            //cartservice efter att användaren har loggat in!
+            await CartService.StoreCartItems(true);
+
+            //efter att ha lagrat items kallar vi på metoden cart count
+            await CartService.GetCartItemsCount();
+
             NavigationManager.NavigateTo(returnUrl);
         }
         else

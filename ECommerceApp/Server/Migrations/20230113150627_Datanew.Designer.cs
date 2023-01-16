@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230112100513_NewAdd")]
-    partial class NewAdd
+    [Migration("20230113150627_Datanew")]
+    partial class Datanew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,25 @@ namespace ECommerceApp.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ECommerceApp.Shared.CartItem", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "ProductId", "ProductTypeId");
+
+                    b.ToTable("CartItems");
+                });
 
             modelBuilder.Entity("ECommerceApp.Shared.Category", b =>
                 {

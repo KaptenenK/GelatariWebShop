@@ -1,13 +1,20 @@
-﻿namespace ECommerceApp.Server.Services.CartService;
+﻿using ECommerceApp.Shared;
+using System.Security.Claims;
+
+namespace ECommerceApp.Server.Services.CartService;
 
 public class CartService : ICartService
 {
     private readonly DataContext _context;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public CartService(DataContext context)
+    public CartService(DataContext context, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
+        _httpContextAccessor = httpContextAccessor;
     }
+
+    private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
     public async Task<ServiceResponse<List<CartProductDTO>>> GetCartProducts(List<CartItem> cartItems)
     {
         var result = new ServiceResponse<List<CartProductDTO>>
@@ -53,5 +60,89 @@ public class CartService : ICartService
         }
 
         return result;
+    }
+
+    public async Task<ServiceResponse<List<CartProductDTO>>> StoreCartItems(List<CartItem> cartItems)
+    {
+        cartItems.ForEach(cartItem => cartItem.UserId = GetUserId());
+        _context.CartItems.AddRange(cartItems);
+        await _context.SaveChangesAsync();
+
+        return await GetDbCartProducts();
+    }
+
+    public async Task<ServiceResponse<int>> GetCartItemsCount()
+    {
+        var count = (await _context.CartItems.Where(ci => ci.UserId == GetUserId()).ToListAsync()).Count();
+        return new ServiceResponse<int> { Data = count };
+    }
+
+    public async Task<ServiceResponse<List<CartProductDTO>>> GetDbCartProducts()
+    {
+        return await GetCartProducts(await _context.CartItems
+            .Where(ci => ci.UserId == GetUserId()).ToListAsync());
+    }
+
+    public async Task<ServiceResponse<bool>> AddToCart(CartItem cartItem)
+    {
+        cartItem.UserId = GetUserId();
+        //kollar om vi har samma item först
+        var sameTime = await _context.CartItems
+            .FirstOrDefaultAsync(ci => ci.ProductId == cartItem.ProductId &&
+           ci.ProductTypeId == cartItem.ProductTypeId && ci.UserId == cartItem.UserId);
+        if(sameTime == null)
+        {
+            _context.CartItems.Add(cartItem);
+        }
+
+        else
+        {
+            sameTime.Quantity += cartItem.Quantity;
+        }
+
+        await _context.SaveChangesAsync();
+        return new ServiceResponse<bool> { Data = true }; 
+    }
+
+    public async Task<ServiceResponse<bool>> UpdateQuantity(CartItem cartItem)
+    {
+        var dbCartItem = await _context.CartItems
+            .FirstOrDefaultAsync(ci => ci.ProductId == cartItem.ProductId &&
+           ci.ProductTypeId == cartItem.ProductTypeId && ci.UserId == GetUserId());
+        if (dbCartItem == null)
+        {
+            return new ServiceResponse<bool>
+            {
+                Data = false,
+                Success = false,
+                Message = "Varan du söker är inte tillgänglig, vänligt kontakta support!"
+            };
+        }
+
+        dbCartItem.Quantity = cartItem.Quantity;
+        await _context.SaveChangesAsync();
+
+        return new ServiceResponse<bool> { Data= true };
+    }
+
+    public async Task<ServiceResponse<bool>> RemoveItemFromCart(int productId, int productTypeId)
+    {
+        var dbCartItem = await _context.CartItems
+           .FirstOrDefaultAsync(ci => ci.ProductId == productId &&
+          ci.ProductTypeId == productTypeId && ci.UserId == GetUserId());
+        if (dbCartItem == null)
+        {
+            return new ServiceResponse<bool>
+            {
+                Data = false,
+                Success = false,
+                Message = "Varan du söker är inte tillgänglig, vänligt kontakta support!"
+            };
+        }
+
+        _context.CartItems.Remove(dbCartItem);
+        await _context.SaveChangesAsync();
+
+        return new ServiceResponse<bool> { Data= true };
     }
 }
