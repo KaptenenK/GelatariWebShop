@@ -137,7 +137,7 @@ public class CartService : ICartService
             await _localStorage.RemoveItemAsync("cart");
         }
     }
-
+    
     public async Task UpdateQuantity(CartProductDTO product)
     {
 
@@ -175,4 +175,6 @@ public class CartService : ICartService
     {
         return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
     }
+
+
 }
