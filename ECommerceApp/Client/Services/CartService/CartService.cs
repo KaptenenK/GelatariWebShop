@@ -7,13 +7,14 @@ public class CartService : ICartService
 {
     private readonly ILocalStorageService _localStorage;
     private readonly HttpClient _http;
+    private readonly IAuthService _authService;
     private readonly AuthenticationStateProvider _authStateProvider;
 
-    public CartService(ILocalStorageService localStorage, HttpClient http, AuthenticationStateProvider AuthStateProvider)
+    public CartService(ILocalStorageService localStorage, HttpClient http, IAuthService authService)
     {
         _localStorage = localStorage;
         _http = http;
-        _authStateProvider = AuthStateProvider;
+        _authService = authService;
     }
     public event Action OnChange;
 
@@ -22,7 +23,7 @@ public class CartService : ICartService
     public async Task AddToCart(CartItem cartItem)
     {
         
-        if (await IsUserAuthenticated())
+        if (await _authService.IsUserAuthenticated())
         {
             await _http.PostAsJsonAsync("api/cart/add", cartItem);
         }
@@ -47,18 +48,18 @@ public class CartService : ICartService
             }
 
             await _localStorage.SetItemAsync("cart", cart);
-            await GetCartItemsCount();
+            
         }
+        await GetCartItemsCount();
 
-        
-       
+
     }
 
    
 
     public async Task GetCartItemsCount()
     {
-        if (await IsUserAuthenticated())
+        if (await _authService.IsUserAuthenticated())
         {
             var result = await _http.GetFromJsonAsync<ServiceResponse<int>>("api/cart/count");
             var count = result.Data;
@@ -76,7 +77,7 @@ public class CartService : ICartService
 
     public async Task<List<CartProductDTO>> GetCartProducts()
     {
-        if(await IsUserAuthenticated())
+        if(await _authService.IsUserAuthenticated())
         {
             var response = await _http.GetFromJsonAsync<ServiceResponse<List<CartProductDTO>>>("api/cart");
             return response.Data;
@@ -95,7 +96,7 @@ public class CartService : ICartService
 
     public async Task RemoveProductFromCart(int productId, int productTypeId)
     {
-        if (await IsUserAuthenticated()) 
+        if (await _authService.IsUserAuthenticated()) 
         {
             await _http.DeleteAsync($"api/cart/{productId}/{productTypeId}");
         }
@@ -141,7 +142,7 @@ public class CartService : ICartService
     public async Task UpdateQuantity(CartProductDTO product)
     {
 
-        if(await IsUserAuthenticated())
+        if(await _authService.IsUserAuthenticated())
         {
             var request = new CartItem
             {
@@ -170,11 +171,4 @@ public class CartService : ICartService
             }
         }        
     }
-
-    private async Task<bool> IsUserAuthenticated()
-    {
-        return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-    }
-
-
 }
