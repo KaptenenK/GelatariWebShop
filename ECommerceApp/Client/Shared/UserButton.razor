@@ -1,6 +1,7 @@
 ﻿@inject ILocalStorageService LocalStorage
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject ICartService CartService
 
 <div class="dropdown">
     <button @onclick="ToggleUserMenu"
@@ -50,6 +51,8 @@
         //vi tar bort authtoken från localstorage
         await LocalStorage.RemoveItemAsync("authToken");
 
+        //Kalla på cart items cart count method
+        await CartService.GetCartItemsCount();
         //vi kallar getauthenticationstate metoden för att något har ändrats
         await AuthenticationStateProvider.GetAuthenticationStateAsync();
         //navigera tillbaka till hem

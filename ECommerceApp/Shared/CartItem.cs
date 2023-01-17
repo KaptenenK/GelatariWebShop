@@ -8,6 +8,10 @@ namespace ECommerceApp.Shared;
 
 public class CartItem
 {
+
+    //Specifik användare 
+    public int UserId { get; set; }
+
     public int ProductId { get; set; }
     public int ProductTypeId { get; set; }
 
