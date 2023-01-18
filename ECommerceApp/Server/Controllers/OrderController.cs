@@ -14,12 +14,13 @@ namespace ECommerceApp.Server.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<ServiceResponse<bool>>> PlaceOrder()
-        {
-            var result = await _orderService.PlaceOrder();
-            return Ok(result);
-        }
+        //vi tar bort den här metoden för att låta webhook göra en call och order
+        //[HttpPost]
+        //public async Task<ActionResult<ServiceResponse<bool>>> PlaceOrder()
+        //{
+        //    var result = await _orderService.PlaceOrder();
+        //    return Ok(result);
+        //}
 
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<OrderOverviewDTO>>>> GetOrders()

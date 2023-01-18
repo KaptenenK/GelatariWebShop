@@ -25,15 +25,18 @@
             return result.Data;
         }
 
-        public async Task PlaceOrder()
+        public async Task<string> PlaceOrder()
         {
             if(await IsUserAuthenticated())
             {
-                await _http.PostAsync("api/order", null);
+                var result = await _http.PostAsync("api/payment/checkout", null);
+                var url = await result.Content.ReadAsStringAsync();
+                return url;
             }
             else
             {
-                _navigationManager.NavigateTo("login");
+                //om ianvändaren inte är authenticated
+                return "login";
             }
         }
         //authentication metoden

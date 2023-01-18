@@ -11,7 +11,7 @@ public interface ICartService
 
 
     //hämta cart items från server eller databasen
-    Task<ServiceResponse<List<CartProductDTO>>> GetDbCartProducts();
+    Task<ServiceResponse<List<CartProductDTO>>> GetDbCartProducts(int? userId = null);
     Task<ServiceResponse<bool>> AddToCart(CartItem cartItem);
 
     Task<ServiceResponse<bool>> UpdateQuantity(CartItem cartItem);
