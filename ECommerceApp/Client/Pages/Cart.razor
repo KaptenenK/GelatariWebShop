@@ -2,7 +2,7 @@
 @inject ICartService CartService
 @inject IOrderService OrderService
 <PageTitle>Kundvagn</PageTitle>
-
+@inject NavigationManager NavigationManager
 
 
 <h3>Kundvagn</h3>
@@ -10,9 +10,7 @@
 {
     <span>@message</span>
 }
-else if (orderPlaced){
-    <span>Tack för din beställning. Du kan se din order <a href="orders">här</a> </span>
-}
+
 else
 {
     <div>
@@ -38,7 +36,7 @@ else
         </div>
     </div>
 
-    <button @onclick="PlaceOrder" class="btn btn-success float-end mt-1">Skapa Order</button>
+    <button @onclick="PlaceOrder" class="btn btn-success float-end mt-1">Gå till Checkout</button>
 }
 @code {
 
@@ -46,14 +44,11 @@ else
 
     string message = "Laddar varukorgen...";
 
-    //om order är placed
-    bool orderPlaced = false;
 
     //Kollar om vi har något i varukorgen 
     protected override async Task OnInitializedAsync ()
     {
-        //om order är placed
-        orderPlaced = false;
+      
 
         await LoadCart();
     }
@@ -86,10 +81,10 @@ else
 
     private async Task PlaceOrder()
     {
-        await OrderService.PlaceOrder();
 
-        //när order är placed
-        await CartService.GetCartItemsCount();
-        orderPlaced = true;
+        // för att returna url
+        string url = await OrderService.PlaceOrder();
+        NavigationManager.NavigateTo(url);
+
     }
 }
