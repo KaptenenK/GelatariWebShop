@@ -1,8 +1,13 @@
 ﻿@page "/cart"
 @inject ICartService CartService
 @inject IOrderService OrderService
-<PageTitle>Kundvagn</PageTitle>
+@inject IAuthService AuthService
 @inject NavigationManager NavigationManager
+
+
+
+<PageTitle>Kundvagn</PageTitle>
+
 
 
 <h3>Kundvagn</h3>
@@ -35,7 +40,13 @@ else
             Total (@cartProducts.Count): @cartProducts.Sum(product => product.Price * product.Quantity) :- 
         </div>
     </div>
-
+   @if (isAuthenticated)
+    {
+        <div>
+            <h5>Leveransaddress</h5>
+            <AddressForm />
+        </div>
+    }
     <button @onclick="PlaceOrder" class="btn btn-success float-end mt-1">Gå till Checkout</button>
 }
 @code {
@@ -43,13 +54,14 @@ else
     List<CartProductDTO> cartProducts = null;
 
     string message = "Laddar varukorgen...";
+    bool isAuthenticated = false;
 
 
     //Kollar om vi har något i varukorgen 
     protected override async Task OnInitializedAsync ()
     {
-      
 
+        isAuthenticated = await AuthService.IsUserAuthenticated();
         await LoadCart();
     }
 
