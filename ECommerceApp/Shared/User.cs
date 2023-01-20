@@ -18,5 +18,6 @@ public class User
 
     public Address Address { get; set; }
 
-    
+  
+    public string Role { get; set; } = "Customer";
 }

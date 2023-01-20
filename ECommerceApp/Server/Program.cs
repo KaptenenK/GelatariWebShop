@@ -8,6 +8,7 @@ global using ECommerceApp.Server.Services.AuthService;
 global using ECommerceApp.Server.Services.OrderService;
 global using ECommerceApp.Server.Services.PaymentService;
 global using ECommerceApp.Server.Services.AddressService;
+global using ECommerceApp.Server.Services.ProductTypeService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IAuthservice, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
