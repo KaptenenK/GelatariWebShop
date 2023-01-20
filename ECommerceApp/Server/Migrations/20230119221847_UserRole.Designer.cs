@@ -4,6 +4,7 @@ using ECommerceApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerceApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230119221847_UserRole")]
+    partial class UserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +99,6 @@ namespace ECommerceApp.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,9 +106,6 @@ namespace ECommerceApp.Server.Migrations
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -118,26 +115,20 @@ namespace ECommerceApp.Server.Migrations
                         new
                         {
                             Id = 1,
-                            Deleted = false,
                             Name = "Glass",
-                            Url = "glass",
-                            Visible = true
+                            Url = "glass"
                         },
                         new
                         {
                             Id = 2,
-                            Deleted = false,
                             Name = "Bakelser",
-                            Url = "bakelser",
-                            Visible = true
+                            Url = "bakelser"
                         },
                         new
                         {
                             Id = 3,
-                            Deleted = false,
                             Name = "Bröd",
-                            Url = "bröd",
-                            Visible = true
+                            Url = "bröd"
                         });
                 });
 
@@ -200,9 +191,6 @@ namespace ECommerceApp.Server.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -218,9 +206,6 @@ namespace ECommerceApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -232,111 +217,91 @@ namespace ECommerceApp.Server.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "Gräddig och god saffransglass som också blir lysande gul av saffranet.",
                             Featured = true,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Title = "SaffransGlass",
-                            Visible = true
+                            Title = "SaffransGlass"
                         },
                         new
                         {
                             Id = 2,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "Äkta pistageglass är en av mina absoluta favoriter när det kommer till glass. Den här hemmagjorda varianten blev helt perfekt i både smak och konsistens.",
                             Featured = false,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Title = "PistageGlass",
-                            Visible = true
+                            Title = "PistageGlass"
                         },
                         new
                         {
                             Id = 3,
                             CategoryId = 1,
-                            Deleted = false,
                             Description = "Glass med äkta vanilj – gör egen vaniljglass med glassmaskin! Grädde, mjölk och äggulor utgör basen till glassen som får smak av socker, vaniljstång och salt.",
                             Featured = false,
                             ImageUrl = "https://assets.icanet.se/e_sharpen:80,q_auto,dpr_1.25,w_718,h_718,c_lfill/imagevaultfiles/id_217210/cf_259/hemmagjord_vaniljglass.jpg",
-                            Title = "VaniljGlass",
-                            Visible = true
+                            Title = "VaniljGlass"
                         },
                         new
                         {
                             Id = 4,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "Crunchy Choklad Cookies!!",
                             Featured = false,
                             ImageUrl = "https://bakingamoment.com/wp-content/uploads/2016/09/IMG_0316-chocolate-chip-cookies-1-720x720.jpg",
-                            Title = "Choklad Cookie",
-                            Visible = true
+                            Title = "Choklad Cookie"
                         },
                         new
                         {
                             Id = 5,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "Krispiga Kolasnittar!",
                             Featured = false,
                             ImageUrl = "https://ingmar.app/blog/wp-content/uploads/2015/12/kolasnittar2.jpg",
-                            Title = "Kola Cookies",
-                            Visible = true
+                            Title = "Kola Cookies"
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "Vårt klassiska recept på Vetebullar/Kanelbullar/Vetebröd, samma recept som återfinns på våra vetemjöls-förpackningar!",
                             Featured = false,
                             ImageUrl = "https://www.kungsornen.se/467791/siteassets/2.-recept/saftigaste-kanelbullarna.jpg?maxwidth=1440",
-                            Title = "Kanelbullar",
-                            Visible = true
+                            Title = "Kanelbullar"
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 2,
-                            Deleted = false,
                             Description = "GUDOMLIGT GODA SAFFRANSBULLAR Riktigt, riktigt saftiga och goda saffransbullar! Smörkrämsfyllningen gör bullarna extra saftiga & goda!",
                             Featured = true,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Title = "Saffransbullar",
-                            Visible = true
+                            Title = "Saffransbullar"
                         },
                         new
                         {
                             Id = 8,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "lkdfkljdsjkfdlkjfdjlsk",
                             Featured = false,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Title = "SaffransLimpa",
-                            Visible = true
+                            Title = "SaffransLimpa"
                         },
                         new
                         {
                             Id = 9,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "-",
                             Featured = false,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Title = "Bananbröd",
-                            Visible = true
+                            Title = "Bananbröd"
                         },
                         new
                         {
                             Id = 10,
                             CategoryId = 3,
-                            Deleted = false,
                             Description = "földsölkfdöklfölsdöklsfd",
                             Featured = true,
                             ImageUrl = "https://ingmar.app/blogg/wp-content/uploads/2020/11/Saffransbullar.jpg",
-                            Title = "BarbariBröd",
-                            Visible = true
+                            Title = "BarbariBröd"
                         });
                 });
 
@@ -402,17 +367,11 @@ namespace ECommerceApp.Server.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
 
                     b.HasKey("ProductId", "ProductTypeId");
 
@@ -425,91 +384,71 @@ namespace ECommerceApp.Server.Migrations
                         {
                             ProductId = 1,
                             ProductTypeId = 3,
-                            Deleted = false,
                             OriginalPrice = 100.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         },
                         new
                         {
                             ProductId = 2,
                             ProductTypeId = 2,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         },
                         new
                         {
                             ProductId = 3,
                             ProductTypeId = 4,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 70.0m,
-                            Visible = true
+                            Price = 70.0m
                         },
                         new
                         {
                             ProductId = 4,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 49.0m,
-                            Price = 30.0m,
-                            Visible = true
+                            Price = 30.0m
                         },
                         new
                         {
                             ProductId = 5,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 39.0m,
-                            Price = 30.0m,
-                            Visible = true
+                            Price = 30.0m
                         },
                         new
                         {
                             ProductId = 6,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         },
                         new
                         {
                             ProductId = 7,
                             ProductTypeId = 5,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 70.0m,
-                            Visible = true
+                            Price = 70.0m
                         },
                         new
                         {
                             ProductId = 8,
                             ProductTypeId = 7,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         },
                         new
                         {
                             ProductId = 9,
                             ProductTypeId = 7,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         },
                         new
                         {
                             ProductId = 10,
                             ProductTypeId = 6,
-                            Deleted = false,
                             OriginalPrice = 99.0m,
-                            Price = 80.0m,
-                            Visible = true
+                            Price = 80.0m
                         });
                 });
 
